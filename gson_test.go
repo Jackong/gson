@@ -1,8 +1,9 @@
-package gson
+package gson_test
 
 import (
 	"testing"
 	"encoding/json"
+	"github.com/Jackong/gson"
 )
 
 func TestDecode(t *testing.T) {
@@ -18,7 +19,7 @@ func TestDecode(t *testing.T) {
     		"key1": "value1"
     	}
     }`)
-	var obj Gson
+	var obj gson.Gson
 	json.Unmarshal(jsonStr, &obj)
 	if err, _int := obj["int"].Int(); err != nil || _int != -11 {
 		t.Error("failed to decode int")
