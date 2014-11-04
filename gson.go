@@ -10,18 +10,15 @@ type Raw struct {
 
 type Gson map[string]Raw
 
+func (g Gson) Get(key string) Raw {
+	return g[key]
+}
+
 func (r Raw) Map(d ...Gson) (m Gson) {
 	if err := r.Decode(&m); err != nil && len(d) > 0 {
 		m = d[0]
 	}
 	return
-}
-
-func (r Raw) MapBool(d ...map[string]bool) (m map[string]bool) {
-	if err := r.Decode(&m); err != nil && len(d) > 0 {
-		m = d[0]
-	}
-    return
 }
 
 func (r Raw) Array(d ...[]Raw) (arr []Raw) {

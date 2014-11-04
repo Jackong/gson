@@ -22,15 +22,15 @@ func TestDecode(t *testing.T) {
     }`)
 	var obj gson.Gson
 	json.Unmarshal(jsonStr, &obj)
-	if obj["int"].Int() != -11 {
+	if obj.Get("int").Int() != -11 {
 		t.Error("failed to decode int")
 	}
 
-	if  obj["uint"].Uint() != 1231 {
+	if  obj.Get("uint").Uint() != 1231 {
 		t.Error("failed to decode uint")
 	}
 
-	if obj["float"].Float() != 2131.12312 {
+	if obj.Get("float").Float() != 2131.12312 {
 		t.Error("failed to decode float")
 	}
 
@@ -56,7 +56,7 @@ func TestDecode(t *testing.T) {
 		t.Error("failed to decode int array")
 	}
 
-	if  len(obj["object"].Map()) != 1 {
+	if  len(obj.Get("object").Map()) != 1 {
 		t.Error("failed to decode object")
 	}
 
