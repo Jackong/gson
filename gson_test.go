@@ -4,6 +4,7 @@ import (
 	"testing"
 	"encoding/json"
 	"github.com/Jackong/gson"
+	"fmt"
 )
 
 func TestDecode(t *testing.T) {
@@ -21,36 +22,49 @@ func TestDecode(t *testing.T) {
     }`)
 	var obj gson.Gson
 	json.Unmarshal(jsonStr, &obj)
-	if err, _int := obj["int"].Int(); err != nil || _int != -11 {
+	if obj["int"].Int() != -11 {
 		t.Error("failed to decode int")
 	}
 
-	if err, _uint := obj["uint"].Uint(); err != nil || _uint != 1231 {
+	if  obj["uint"].Uint() != 1231 {
 		t.Error("failed to decode uint")
 	}
 
-	if err, _float := obj["float"].Float(); err != nil || _float != 2131.12312 {
+	if obj["float"].Float() != 2131.12312 {
 		t.Error("failed to decode float")
 	}
 
-	if err, _bool := obj["bool"].Bool(); err != nil || !_bool {
+	if !obj["bool"].Bool() {
 		t.Error("failed to decode bool")
 	}
 
-	if err, _string := obj["string"].String(); err != nil || _string != "hello gson" {
+	if obj["string"].String() != "hello gson" {
 		t.Error("failed to decode string")
 	}
 
-
-	if err, _strArr := obj["strArr"].Array(); err != nil || len(_strArr) != 2 {
+	if len(obj["strArr"].Array()) != 2 {
 		t.Error("failed to decode string array")
 	}
 
-	if err, _intArr := obj["intArr"].Array(); err != nil || len(_intArr) != 3 {
+	for idx, e := range obj["strArr"].Array() {
+		if e.String() != fmt.Sprint("elem", idx + 1) {
+			t.Error("failed to expect element")
+		}
+	}
+
+	if len(obj["intArr"].Array()) != 3 {
 		t.Error("failed to decode int array")
 	}
 
-	if err, _obj := obj["object"].Map(); err != nil || len(_obj) != 1 {
+	if  len(obj["object"].Map()) != 1 {
 		t.Error("failed to decode object")
+	}
+
+	if obj["notExist"].String() != "" {
+		t.Error("failed to decode not exists value")
+	}
+
+	if obj["notExist"].String("default") != "default" {
+		t.Error("failed to decode not default value", obj["notExist"].String("default"))
 	}
 }
